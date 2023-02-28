@@ -127,3 +127,16 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+
+__HW_13_Levenets/
+__MDN/
+.idea/
+__pycache__
+.DS_Store
+
+# Text backup files
+*.bak
+
+# Database
+*.sqlite3
