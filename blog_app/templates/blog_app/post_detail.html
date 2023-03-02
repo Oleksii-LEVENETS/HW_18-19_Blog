@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Topic Detail</title>
+</head>
+<body>
+
+{% extends "base_generic.html" %}
+
+{% block content %}
+<div class="container-fluid my-5">
+  <div class="row">
+    <div class="col-lg-6 offset-lg-3">
+
+      <div class="card">
+        <h2 class="card-title text-center my-3">{{ post.title }}</h2>
+        <div class="text-muted text-center mb-3">
+          <div>
+            created: {{ post.created_on|date:"N j Y" }},
+            last updated: {{ post.updated_on|timesince }},
+            by <a href="{% url 'blog_users:profile' post.author.username %}">
+            {{ post.author.username }}
+            </a>
+          </div>
+
+          <div>
+            {% for topic in post.topics.all %}
+                <a  href="{% url 'blog_app:topic-detail' topic.id %}">
+                  <li>Topic: {{ topic }}</li></a>
+            {% endfor %}
+          </div>
+        </div>
+
+        {% if post.image %}
+          <img class="card-img-top" src="{{ post.image.url }}" alt="{{ post.title }}">
+        {% endif %}
+
+        {% if post.author == request.user %}
+          <div class="mt-4 mx-3">
+             <a class="btn btn-primary" href="{% url 'blog_app:post-update' post.id %}">Edit</a>
+             <a class="btn btn-danger" href="{% url 'blog_app:post-delete' post.id %}">Delete</a>
+          </div>
+        {% endif %}
+
+        <div class="card-text mt-5 p-4">
+          {{ post.content }}
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+{% endblock content %}
+
+</body>
+</html>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Topic Detail</title>
+</head>
+<body>
+
+{% extends "base_generic.html" %}
+
+{% block content %}
+  <h1>Topic: {{ topic }}</h1>
+
+<div style="margin-left:20px;margin-top:20px">
+<h4>Posts on this Topic({{ topic }}:</h4>
+<dl>
+{% for post in topic.post_set.all %}
+  <li><a href="{% url 'blog_app:post-detail' post.pk %}">{{post}}</a>
+    Author: {{post.author.username}}</li> <dd>Created: {{post.created_on}}. Updated: {{post.updated_on}}</dd>
+{% endfor %}
+</dl>
+</div>
+{% endblock %}
+
+</body>
+</html>

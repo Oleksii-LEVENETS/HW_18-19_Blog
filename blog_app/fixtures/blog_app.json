@@ -1,0 +1,79 @@
+[
+{
+  "model": "blog_app.topic",
+  "pk": 1,
+  "fields": {
+    "name": "Weather"
+  }
+},
+{
+  "model": "blog_app.topic",
+  "pk": 2,
+  "fields": {
+    "name": "Python"
+  }
+},
+{
+  "model": "blog_app.topic",
+  "pk": 3,
+  "fields": {
+    "name": "Politics"
+  }
+},
+{
+  "model": "blog_app.topic",
+  "pk": 4,
+  "fields": {
+    "name": "AWS"
+  }
+},
+{
+  "model": "blog_app.post",
+  "pk": 1,
+  "fields": {
+    "title": "Writing programs",
+    "author": 1,
+    "slug": "writing-programs",
+    "content": "Content/Content/Content/Content",
+    "image": "IMG_2675_standatd.jpg",
+    "created_on": "2023-03-01T14:05:17.576Z",
+    "updated_on": "2023-03-01T14:38:43.160Z",
+    "topics": [
+      4,
+      2
+    ]
+  }
+},
+{
+  "model": "blog_app.post",
+  "pk": 2,
+  "fields": {
+    "title": "Sea weather",
+    "author": 2,
+    "slug": "sea-weather",
+    "content": "Content/sea-weather/sea-weather/sea-weather",
+    "image": "",
+    "created_on": "2023-03-01T14:06:10.324Z",
+    "updated_on": "2023-03-01T14:38:34.630Z",
+    "topics": [
+      1
+    ]
+  }
+},
+{
+  "model": "blog_app.post",
+  "pk": 3,
+  "fields": {
+    "title": "New politics",
+    "author": 3,
+    "slug": "new-politics",
+    "content": "Content/new-politics/new-politics/new-politics",
+    "image": "Screenshot_2022-08-19_at_12.25.17.png",
+    "created_on": "2023-03-01T14:07:07.324Z",
+    "updated_on": "2023-03-01T14:38:26.162Z",
+    "topics": [
+      3
+    ]
+  }
+}
+]
