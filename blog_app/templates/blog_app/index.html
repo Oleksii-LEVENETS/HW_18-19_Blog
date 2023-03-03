@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Blog App Index Page</title>
+</head>
+<body>
+
+{% extends "base_generic.html" %}
+
+{% block content %}
+<h1>Welcome to <em>Blog App</em>!</h1>
+  <p>The Blog App has the following record counts:</p>
+  <ul>
+    <li><strong>Posts:</strong> {{ num_posts }}</li>
+    <li><strong>Topics:</strong> {{ num_topics }}</li>
+    <li><strong>Users:</strong> {{ num_users }}</li>
+
+<div class="container mt-1">
+  <div class="row">
+    {% for post in object_list %}
+    <div class="card col-lg-6 offset-lg-3 mb-3">
+      {% if post.image %}
+      <img class="card-img-top mt-3" src="{{ post.image.url }}" alt="{{ post.title }}">
+      {% endif %}
+      <div class="card-body">
+        <a href="{% url 'blog_app:post-detail' post.id %}">
+          <h2 class="card-title my-3">{{ post.title }} </h2>
+        </a>
+        <div class="text-muted mb-3">
+                <div>
+                  <span>created: {{ post.created_on|date:"j N, Y" }} |</span>
+                  <span>updated: {{ post.updated_on|timesince }} ago |</span>
+                  by author: <a href="{% url 'blog_users:profile' post.author.username %}">
+                  <span>{{ post.author.username }}</span>
+                </div>
+
+                <div>
+                    {% for topic in post.topics.all %}
+                    <a  href="{% url 'blog_app:topic-detail' topic.id %}">
+                    <li>Topic: {{ topic }}</li></a>
+                    {% endfor %}
+                </div>
+        </div>
+        <p>{{ post.content|truncatewords:20 }}</p>
+        <a class='btn btn-primary' href="{% url 'blog_app:post-detail' post.id %}">Read more ...</a>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+  <hr>
+  </ul>
+  <p>You have visited this page {{ num_visits }} time{{ num_visits|pluralize }}.</p>
+
+{% endblock %}
+
+</body>
+</html>
