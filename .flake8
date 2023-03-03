@@ -12,8 +12,11 @@ exclude =
     # There's no value in checking tests.py file
     tests.py,
     # There's no value in checking tests directory
-    tests
+    tests,
     # No need to traverse sandbox.py
-    sandbox.py
+    sandbox.py,
+    __HW_13_Levenets,
+    __MDN,
+    .tox,
 
 max-complexity = 10

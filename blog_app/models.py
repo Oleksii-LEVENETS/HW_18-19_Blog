@@ -1,5 +1,5 @@
-from django.db import models
 from django.conf import settings
+from django.db import models
 from django.urls import reverse
 
 
@@ -9,11 +9,6 @@ class Topic(models.Model):
 
     class Meta:
         ordering = ['name']
-        # permissions = (
-        #     ("can_create_topic", "Topic Creating"),
-        #     ("can_update_topic", "Topic Updating"),
-        #     ("can_delete_topic", "Topic Deleting"),
-        # )
 
     def get_absolute_url(self):
         """Returns the url to access a particular topic."""
@@ -37,15 +32,10 @@ class Post(models.Model):
 
     class Meta:
         ordering = ['-created_on']
-        # permissions = (
-        #     ("can_create_post", "Post Creating"),
-        #     ("can_update_post", "Post Updating"),
-        #     ("can_delete_post", "Post Deleting"),
-        # )
 
     def display_topic(self):
-        """Creates a string for the Topic. This is required to display Topic in Admin."""
-        return ', '.join([topic.name for topic in self.topics.all()[:3]])
+        """Creates a string for the Topics. This is required to display Topics in Admin."""
+        return ', '.join([topic.name for topic in self.topics.all()[:2]])
 
     display_topic.short_description = 'Topic'
 

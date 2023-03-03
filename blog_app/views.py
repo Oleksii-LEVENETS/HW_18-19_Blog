@@ -1,18 +1,20 @@
+from blog_users.models import BlogUser
+
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404
-from django.views.generic import (
-    ListView,
-    DetailView,
-    CreateView,
-    UpdateView,
-    DeleteView
-)
 from django.urls import reverse_lazy
 from django.utils.text import slugify
+from django.views.generic import (
+    CreateView,
+    DeleteView,
+    DetailView,
+    ListView,
+    UpdateView,
+)
 
-from blog_app.models import Post, Topic
-from blog_users.models import BlogUser
+from .forms import CommentForm
+from .models import Comment, Post, Topic
 
 
 # Create your views here.
@@ -49,6 +51,46 @@ class TopicListView(ListView):
 class PostDetailView(DetailView):
     template_name = 'blog_app/post_detail.html'
     model = Post
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        pk = self.kwargs["pk"]
+
+        form = CommentForm()
+        post = get_object_or_404(Post, pk=pk)
+        comments = post.comment_set.all()
+
+        context['post'] = post
+        context['comments'] = comments
+        context['form'] = form
+        return context
+
+    def post(self, request, *args, **kwargs):
+        form = CommentForm(request.POST)
+        self.object = self.get_object()
+        context = super().get_context_data(**kwargs)
+
+        post = Post.objects.filter(id=self.kwargs['pk'])[0]
+        comments = post.comment_set.all()
+
+        context['post'] = post
+        context['comments'] = comments
+        context['form'] = form
+
+        if form.is_valid():
+            name = form.cleaned_data['name']
+            email = form.cleaned_data['email']
+            content = form.cleaned_data['content']
+
+            comment = Comment.objects.create(  # noqa: F841
+                name=name, email=email, content=content, post=post
+            )
+
+            form = CommentForm()
+            context['form'] = form
+            return self.render_to_response(context=context)
+
+        return self.render_to_response(context=context)
 
 
 class TopicDetailView(DetailView):

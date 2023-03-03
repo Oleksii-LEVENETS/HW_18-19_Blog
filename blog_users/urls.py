@@ -1,14 +1,14 @@
 from django.contrib.auth.views import (
-    PasswordResetView,
-    PasswordResetDoneView,
-    PasswordResetConfirmView,
-    PasswordResetCompleteView,
-    PasswordChangeView,
     PasswordChangeDoneView,
+    PasswordChangeView,
+    PasswordResetCompleteView,
+    PasswordResetConfirmView,
+    PasswordResetDoneView,
+    PasswordResetView,
 )
 from django.urls import path, reverse_lazy
 
-from .views import edit_profile, log_in, log_out, signup, profile
+from .views import edit_profile, log_in, log_out, profile, signup
 
 
 app_name = "blog_users"

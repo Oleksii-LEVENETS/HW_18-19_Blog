@@ -22,6 +22,7 @@
         <a href="{% url 'blog_app:index' %}" class="nav-item nav-link">Home</a>
         <a href="{% url 'blog_app:posts' %}" class="nav-item nav-link">All Posts</a>
         <a href="{% url 'blog_app:topics' %}" class="nav-item nav-link">All Topics</a>
+        <a href="{% url 'blog_users:password_reset' %}" class="nav-item nav-link">Password Reset</a>
 
           {% if request.user.is_authenticated %}
             <div class="navbar-nav ml-auto">

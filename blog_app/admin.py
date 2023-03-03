@@ -1,8 +1,14 @@
 from django.contrib import admin
-from .models import Post, Topic
+
+from .models import Comment, Post, Topic
 
 
 # Register your models here.
+class CommentInline(admin.StackedInline):
+    model = Comment
+    extra = 0
+
+
 @admin.register(Post)
 class PostAdmin(admin.ModelAdmin):
     list_display = ('id', 'title', 'author', 'slug', 'display_topic', 'created_on', 'updated_on',)
@@ -15,8 +21,9 @@ class PostAdmin(admin.ModelAdmin):
     ordering = ['-id']
     save_as = True
 
+    inlines = [CommentInline, ]
 
-# TagAdmin must define "search_fields", because it's referenced by PostAdmin.autocomplete_fields.
+
 @admin.register(Topic)
 class TopicAdmin(admin.ModelAdmin):
     search_fields = ('name',)
@@ -25,6 +32,13 @@ class TopicAdmin(admin.ModelAdmin):
     list_per_page = 5
 
 
-class PostInline(admin.TabularInline):  # ToDo: for Author
-    model = Post
-    extra = 0
+@admin.register(Comment)
+class CommentAdmin(admin.ModelAdmin):
+    list_display = ('id', 'email', 'post', 'created',)
+    date_hierarchy = 'created'
+    list_filter = ('email', 'post', 'created',)
+    search_fields = ('id', 'email', 'post', 'created',)
+    list_display_links = ('id', 'email', 'post', 'created',)
+    ordering = ['-created']
+    save_as = True
+    list_per_page = 5

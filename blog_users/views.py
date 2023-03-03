@@ -10,7 +10,6 @@ from .models import BlogUser, Profile
 
 # Create your views here.
 def signup(request):
-    # redirect a user to the home page if he is already logged in
     if request.user.is_authenticated:
         return redirect('blog_app:index')
     if request.method == 'POST':

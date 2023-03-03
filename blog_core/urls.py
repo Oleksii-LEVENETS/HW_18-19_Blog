@@ -24,10 +24,7 @@ urlpatterns = [
 
     path('', include(('blog_app.urls', 'blog_app'), namespace='blog-app')),
 
-    # path('blog_app/', include('blog_app.urls')),
-    # path('accounts/', include('django.contrib.auth.urls')),
     path('blog_users/', include(('blog_users.urls', 'blog_users'), namespace='blog-users')),
-
 ]
 
 if settings.DEBUG:
