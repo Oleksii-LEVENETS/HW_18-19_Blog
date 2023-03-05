@@ -1,0 +1,15 @@
+p {
+    color: red;
+}
+
+h1 {
+    color: green;
+}
+
+.example {
+    font-family: sans-serif;
+}
+
+#example {
+    font-size: 3rem;
+}

@@ -11,49 +11,50 @@ from .models import BlogUser, Profile
 # Create your views here.
 def signup(request):
     if request.user.is_authenticated:
-        return redirect('blog_app:index')
-    if request.method == 'POST':
+        return redirect("blog_app:index")
+    if request.method == "POST":
         form = SignUpForm(request.POST)
         if form.is_valid():
             user = form.save()
             login(request, user)
             messages.success(request, "Congratulations, you are now a registered User!")
-            return redirect('blog_app:index')
+            return redirect("blog_app:index")
     else:
         form = SignUpForm()
-    return render(request, 'blog_users/signup.html', {'form': form})
+    return render(request, "blog_users/signup.html", {"form": form})
 
 
 def log_in(request):
     if request.user.is_authenticated:
-        return redirect('blog_app:index')
+        return redirect("blog_app:index")
     if request.method == "POST":
         form = LoginForm(request.POST)
         if form.is_valid():
             email = form.cleaned_data["email"]
             password = form.cleaned_data["password"]
             user = authenticate(email=email, password=password)
-            if user:
+            if user:  # noqa: R505
                 login(request, user)
-                return redirect('blog_app:index')
+                return redirect("blog_app:index")
             else:
-                messages.error(request, 'Invalid email or password')
+                messages.error(request, "Invalid email or password")
     else:
         form = LoginForm()
 
-    return render(request, 'blog_users/login.html', {'form': form})
+    return render(request, "blog_users/login.html", {"form": form})
 
 
 def log_out(request):
     logout(request)
-    return redirect(reverse('blog_users:login'))
+    return redirect(reverse("blog_users:login"))
 
 
 @login_required
 def profile(request, username):
     user = get_object_or_404(BlogUser, username=username)
     profile = get_object_or_404(Profile, user=user)
-    return render(request, 'blog_users/profile.html', {'profile': profile, 'user': user})
+    # return render(request, "blog_users/profile.html", {"profile": profile, "user": user})  # ToDo: change back
+    return render(request, "blog_users/profile.html", {"profile": profile, "user": user})
 
 
 @login_required
@@ -77,4 +78,4 @@ def edit_profile(request):
             return redirect("blog_users:profile", username=user.username)
     else:
         form = EditProfileForm(request.user.username)
-    return render(request, "blog_users/edit_profile.html", {'form': form})
+    return render(request, "blog_users/edit_profile.html", {"form": form})

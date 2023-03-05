@@ -38,7 +38,7 @@
         {% if post.image %}
         <img class="card-img-top" src="{{ post.image.url }}" alt="{{ post.title }}">
         {% endif %}
-        {% if post.author == request.user %}
+        {% if post.author == request.user or request.user.is_superuser %}
         <div class="mt-4 mx-3">
           <a class="btn btn-primary" href="{% url 'blog_app:post-update' post.id %}">Edit</a>
           <a class="btn btn-danger" href="{% url 'blog_app:post-delete' post.id %}">Delete</a>

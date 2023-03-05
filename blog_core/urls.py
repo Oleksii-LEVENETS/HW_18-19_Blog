@@ -20,14 +20,14 @@ from django.urls import include, path
 
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-
-    path('', include(('blog_app.urls', 'blog_app'), namespace='blog-app')),
-
-    path('blog_users/', include(('blog_users.urls', 'blog_users'), namespace='blog-users')),
+    path("admin/", admin.site.urls),
+    path("", include(("blog_app.urls", "blog_app"), namespace="blog-app")),
+    path("blog_users/", include(("blog_users.urls", "blog_users"), namespace="blog-users")),
 ]
 
 if settings.DEBUG:
-    # urlpatterns += [path('__debug__/', include('debug_toolbar.urls')), ]
+    urlpatterns += [
+        path("__debug__/", include("debug_toolbar.urls")),
+    ]
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

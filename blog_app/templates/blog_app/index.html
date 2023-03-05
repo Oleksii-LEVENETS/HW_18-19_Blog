@@ -1,15 +1,22 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Blog App Index Page</title>
-</head>
-<body>
-
 {% extends "base_generic.html" %}
+
+{% load static %}
+
+{% block extra_js %}
+  <script src="{% static 'js/books_new.js' %}"></script>
+{% endblock %}
+
 
 {% block content %}
 <h1>Welcome to <em>Blog App</em>!</h1>
+
+<p>
+    <button type="button" class="btn btn-primary js-create-book" data-url="{% url 'blog_app:book_create' %}">
+      <span class="glyphicon glyphicon-plus"></span>
+      New book
+    </button>
+  </p>
+
   <p>The Blog App has the following record counts:</p>
   <ul>
     <li><strong>Posts:</strong> {{ num_posts }}</li>
@@ -54,7 +61,14 @@
   </ul>
   <p>You have visited this page {{ num_visits }} time{{ num_visits|pluralize }}.</p>
 
-{% endblock %}
+<!-- Modal Window -->
+<div class="modal fade" id="modal-book">
+    <div class="modal-dialog">
+      <div class="modal-content">
 
-</body>
-</html>
+      </div>
+    </div>
+</div>
+<!-- /Modal Window -->
+
+{% endblock %}
