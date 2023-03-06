@@ -1,6 +1,7 @@
-{% load static %}<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
+  {% load static %}
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{% block title %}Book store{% endblock %}</title>
@@ -13,6 +14,9 @@
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"
           integrity="sha384-LtrjvnR4Twt/qOuYxE721u19sVFLVSA4hf/rRt6PrZTmiPltdZcI7q7PXQBYTKyf"
           crossorigin="anonymous"></script>
+
+  <script src="{% static 'js/contact.js' %}"></script>
+
   {% block extra_css %}
   {% endblock %}
   {% block extra_js %}
@@ -21,7 +25,7 @@
 
 <body>
 
- <nav class="navbar navbar-expand-sm navbar bg-dark">
+<nav class="navbar navbar-expand-sm navbar bg-dark">
   <div class="container">
     <a href="{% url 'blog_app:index' %}"
       class="navbar-brand">
@@ -37,7 +41,12 @@
         <a href="{% url 'blog_app:posts' %}" class="nav-item nav-link">All Posts</a>
         <a href="{% url 'blog_app:topics' %}" class="nav-item nav-link">All Topics</a>
         <a href="{% url 'blog_users:password_reset' %}" class="nav-item nav-link">Password Reset</a>
-        <a href="{% url 'blog_app:contact-form' %}" class="nav-item nav-link">Contact Us</a>
+        <p>
+          <button type="button" class="btn btn-outline-info js-contact" data-url="{% url 'blog_app:contact' %}">
+            <span class="glyphicon glyphicon-plus"></span>
+            Contact Us
+          </button>
+        </p>
 
           {% if request.user.is_authenticated %}
             <div class="navbar-nav ml-auto">
@@ -80,6 +89,49 @@
   </div>
  </nav>
 
+<div class="container-fluid">
+    <div class="row">
+      <div class="col-sm-2">
+      {% block sidebar %}
+        <ul class="sidebar-nav">
+            {% if user.is_authenticated %}
+                <p>User:</p>
+                <p>{{ user.username }}</p>
+                <hr>
+                <p><a href="{% url 'blog_app:my-posts' %}">
+                  <button type="button" class="btn btn-outline-primary">
+                      My Posts
+                  </button>
+                </a></p>
+            {% endif %}
+           <br />
+           <br />
+           <br />
+           <br />
+           <br />
+           <br />
+           <br />
+           <br />
+           <br />
+           <br />
+           <br />
+           <br />
+               <p><a href="{% url 'admin:index' %}">
+                   <button type="button" class="btn btn-outline-primary">
+                        Admin
+                   </button>
+               </a></p>
+       </ul>
+      </div>
+      {% endblock %}
+<!--    </div>-->
+<!--  </div>-->
+
+<div class="col-sm-10 ">
+  {% block content %}
+  {% endblock %}
+</div>
+
  <!-- Messages -->
 {% if messages %}
 <div class="container-fluid p-0">
@@ -90,38 +142,7 @@
     {% endfor %}
 </div>
 {% endif %}
-
 <!-- /Messages -->
-
-<!--  <div class="container-fluid">-->
-<!--    <div class="row">-->
-<!--      <div class="col-sm-2">-->
-
-<!--{% block sidebar %}-->
-<!--        <ul class="sidebar-nav">-->
-
-<!--            {% if user.is_authenticated %}-->
-<!--                <p>User:</p>-->
-<!--                <p>{{ user.username }}</p>-->
-<!--                <hr>-->
-<!--                <p><a href="{% url 'blog_app:my-posts' %}">My Posts</a></p>-->
-<!--            {% endif %}-->
-<!--       </ul>-->
-<!--       <br />-->
-<!--       <br />-->
-<!--       <br />-->
-<!--       <br />-->
-<!--       <h7><a href="{% url 'admin:index' %}">...admin/</a></h7>-->
-<!--      </div>-->
-<!--{% endblock %}-->
-
-<!--    </div>-->
-<!--  </div>-->
-
- <div class="container" style="padding-top: 60px;">
-  {% block content %}
-  {% endblock %}
-</div>
 
 <!-- Pagination -->
 {% block pagination %}
@@ -136,7 +157,7 @@
         </li>
         {% else %}
         <li class="page-item disabled">
-          <a class="page-link" href="#"">Previous</a>
+          <a class="page-link" href="#">Previous</a>
         </li>
         {% endif %}
 
@@ -161,6 +182,16 @@
 {% endif %}
 {% endblock %}
 <!-- /Pagination -->
+
+<!-- Modal Window -->
+<div class="modal fade" id="modal-contact">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+      </div>
+    </div>
+</div>
+<!-- /Modal Window -->
 
 </body>
 </html>

@@ -11,9 +11,7 @@ from django.views.generic import (
     CreateView,
     DeleteView,
     DetailView,
-    FormView,
     ListView,
-    TemplateView,
     UpdateView,
 )
 
@@ -134,7 +132,6 @@ class PostUpdateView(LoginRequiredMixin, UpdateView):
         context = super().get_context_data(**kwargs)
         update = True
         context["update"] = update
-
         return context
 
     def get_success_url(self):
@@ -161,7 +158,7 @@ class PostDeleteView(LoginRequiredMixin, DeleteView):
 
 
 # Contact Us
-def save_book_form(request, form, template_name):
+def email_contact_form(request, form, template_name):
     data = dict()
     if request.method == "POST":
         if form.is_valid():
@@ -174,24 +171,9 @@ def save_book_form(request, form, template_name):
     return JsonResponse(data)
 
 
-def book_create(request):
+def contact(request):
     if request.method == "POST":
         form = ContactForm(request.POST)
     else:
-        form = ContactForm()
-    return save_book_form(request, form, "blog_app/partial_book_create.html")
-
-
-class ContactFormView(FormView):
-    template_name = "blog_app/contact_form.html"
-    initial = {"first_name": "User", "last_name": "Userenko", "email_address": "uu@example.com"}
-    form_class = ContactForm
-    success_url = reverse_lazy("blog_app:contact-form-thanks")
-
-    def form_valid(self, form):
-        form.send_email()
-        return super().form_valid(form)
-
-
-class ContactTemplateView(TemplateView):
-    template_name = "blog_app/contact_form_thanks.html"
+        form = ContactForm(initial={"first_name": "User", "last_name": "Userenko", "email_address": "uu@example.com"})
+    return email_contact_form(request, form, "blog_app/partial_contact_form_create.html")

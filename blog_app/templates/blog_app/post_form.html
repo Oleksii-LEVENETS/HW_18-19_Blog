@@ -39,7 +39,7 @@
         <div class="form-group">
           {{ form.image.label_tag }}<br>
           <input type="file" class="{% if form.image.errors %}is-invalid{% endif %}" id="id_image" name="image"
-            accept="image/*">
+            accept="image/*">  {{ form.image.value|default:"" }}
           {% if form.image.errors %}
           <div class="invalid-feedback">{{ form.image.errors }}</div>
           {% endif %}

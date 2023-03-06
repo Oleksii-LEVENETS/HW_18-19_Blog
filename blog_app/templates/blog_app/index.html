@@ -3,19 +3,10 @@
 {% load static %}
 
 {% block extra_js %}
-  <script src="{% static 'js/books_new.js' %}"></script>
 {% endblock %}
-
 
 {% block content %}
 <h1>Welcome to <em>Blog App</em>!</h1>
-
-<p>
-    <button type="button" class="btn btn-primary js-create-book" data-url="{% url 'blog_app:book_create' %}">
-      <span class="glyphicon glyphicon-plus"></span>
-      New book
-    </button>
-  </p>
 
   <p>The Blog App has the following record counts:</p>
   <ul>
@@ -60,15 +51,5 @@
   <hr>
   </ul>
   <p>You have visited this page {{ num_visits }} time{{ num_visits|pluralize }}.</p>
-
-<!-- Modal Window -->
-<div class="modal fade" id="modal-book">
-    <div class="modal-dialog">
-      <div class="modal-content">
-
-      </div>
-    </div>
-</div>
-<!-- /Modal Window -->
 
 {% endblock %}
