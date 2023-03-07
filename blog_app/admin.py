@@ -12,6 +12,8 @@ class CommentInline(admin.StackedInline):
 @admin.register(Post)
 class PostAdmin(admin.ModelAdmin):
     list_display = (
+        "active",
+        "draft",
         "id",
         "title",
         "author",
@@ -24,6 +26,8 @@ class PostAdmin(admin.ModelAdmin):
         "author",
         "created_on",
         "updated_on",
+        "active",
+        "draft",
     )
     search_fields = (
         "id",
@@ -33,6 +37,8 @@ class PostAdmin(admin.ModelAdmin):
         "display_topic",
         "created_on",
         "updated_on",
+        "active",
+        "draft",
     )
     prepopulated_fields = {"slug": ("title",)}  # this create the slug field from the title field
     autocomplete_fields = ("topics",)  # to more simple select multiple choices
@@ -44,6 +50,8 @@ class PostAdmin(admin.ModelAdmin):
         "display_topic",
         "created_on",
         "updated_on",
+        "active",
+        "draft",
     )
     list_per_page = 5
     ordering = ["-id"]
@@ -52,6 +60,11 @@ class PostAdmin(admin.ModelAdmin):
     inlines = [
         CommentInline,
     ]
+
+    actions = ["approve_posts"]
+
+    def approve_posts(self, request, queryset):
+        queryset.update(active=True)
 
 
 @admin.register(Topic)
@@ -65,29 +78,39 @@ class TopicAdmin(admin.ModelAdmin):
 @admin.register(Comment)
 class CommentAdmin(admin.ModelAdmin):
     list_display = (
+        "active",
         "id",
         "email",
         "post",
-        "created",
+        "created_on",
+        "name",
+        "body",
     )
-    date_hierarchy = "created"
+    date_hierarchy = "created_on"
     list_filter = (
         "email",
         "post",
-        "created",
+        "created_on",
+        "active",
     )
     search_fields = (
         "id",
         "email",
         "post",
-        "created",
+        "created_on",
+        "active",
     )
     list_display_links = (
         "id",
+        "active",
         "email",
         "post",
-        "created",
+        "created_on",
     )
-    ordering = ["-created"]
+    ordering = ["-created_on"]
     save_as = True
     list_per_page = 5
+    actions = ["approve_comments"]
+
+    def approve_comments(self, request, queryset):
+        queryset.update(active=True)

@@ -16,12 +16,12 @@
     <div class="card col-lg-6 offset-lg-3 mb-3">
       <div class="row">
         {% if user.profile.image %}
-        <img class="card-img-top col-sm-3 col-4 my-3" src="{{ profile.image.url }}" alt="{{ user.username }}">
+        <img class="card-img-top col-sm-4 col-4 my-3" src="{{ profile.image.url }}" alt="{{ user.username }}">
         {% else %}
         <img class="card-img-top col-sm-3 col-4 my-3" src="{% static 'img/avatar.png' %}" alt="{{ user.username }}">
         {% endif %}
         <div class="card-body col-9">
-          <h2 class="card-title my-3">{{ user.username }}</h2>
+          <p>username:  <h2>{{ user.username }}</h2></p>
           <p>Last login on: {{ user.last_login }}</p>
           <p class="card-text">{{ user.profile.about_me }}</p>
           <p><a href="{% url 'blog_users:edit_profile' %}">Edit your profile</a></p>

@@ -20,7 +20,7 @@ class LoginForm(forms.Form):
 
 class EditProfileForm(forms.Form):
     username = forms.CharField()
-    about_me = forms.CharField(widget=forms.Textarea())
+    about_me = forms.CharField(widget=forms.Textarea)
     image = forms.ImageField(required=False)
 
     def __init__(self, original_username, *args, **kwargs):

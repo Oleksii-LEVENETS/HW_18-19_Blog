@@ -14,8 +14,22 @@
   <ul>
     {% for post in post_list %}
       <li>
-        <a href="{{ post.get_absolute_url }}">{{ post }}</a>
+        <h2><a href="{{ post.get_absolute_url }}">{{ post }}</a></h2>
       </li>
+        <dd>by Author: <a href="{% url 'blog_users:profile' post.author.username %}">{{ post.author.username }}</a></dd>
+        <dd>Created: {{post.created_on}} | Updated: {{post.updated_on}}</dd>
+        <dd>Topic:
+              {% for topic in post.topics.all %}
+              <a  href="{% url 'blog_app:topic-detail' topic.id %}">
+              {{ topic }}</a>
+              {% endfor %}
+        </dd>
+
+      {% if mypost %}
+      Is Draft:        {% if post.draft %} Yes, is Draft. {% else %} No. {% endif %}<br/>
+      Is Posted:       {% if post.active and not post.draft %} Yes, is Posted.
+                       {% else %} No, is not Posted.{% endif %}
+      {% endif %}
     {% endfor %}
   </ul>
   {% else %}

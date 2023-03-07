@@ -29,6 +29,8 @@ class Post(models.Model):
     topics = models.ManyToManyField(Topic, help_text="Select a Topic for this Post", blank=True)
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
+    active = models.BooleanField(default=False)
+    draft = models.BooleanField(default=False)
 
     class Meta:
         ordering = ["-created_on"]
@@ -50,12 +52,13 @@ class Post(models.Model):
 class Comment(models.Model):
     name = models.CharField(max_length=50)
     email = models.EmailField(max_length=100)
-    content = models.TextField()
-    post = models.ForeignKey(Post, on_delete=models.CASCADE)
-    created = models.DateTimeField(auto_now_add=True)
+    body = models.TextField()
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="comments")  # related_name vs "comment_set"
+    created_on = models.DateTimeField(auto_now_add=True)
+    active = models.BooleanField(default=False)
 
     class Meta:
-        ordering = ("-created",)
+        ordering = ["-created_on"]
 
     def __str__(self):
-        return f"Comment by {self.name}"
+        return f"Comment {self.body} by {self.name}"

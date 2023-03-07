@@ -6,22 +6,26 @@
 {% endblock %}
 
 {% block content %}
-<h1>Welcome to <em>Blog App</em>!</h1>
 
-  <p>The Blog App has the following record counts:</p>
-  <ul>
-    <li><strong>Posts:</strong> {{ num_posts }}</li>
-    <li><strong>Topics:</strong> {{ num_topics }}</li>
-    <li><strong>Users:</strong> {{ num_users }}</li>
-
-<div class="container mt-1">
+<ul class="container-fluid">
   <div class="row">
-    {% for post in object_list %}
-    <div class="card col-lg-6 offset-lg-3 mb-3">
-      {% if post.image %}
-      <img class="card-img-top mt-3" src="{{ post.image.url }}" alt="{{ post.title }}">
-      {% endif %}
-      <div class="card-body">
+    <div class="col-sm-2 m-3 p-3">
+        <h1>Welcome</h1>
+        to
+        <h1><em>Blog App</em>!</h1>
+        <p>The Blog App has the following record counts:</p>
+        <li><strong>Posts:</strong> {{ num_posts }}</li>
+        <li><strong>Topics:</strong> {{ num_topics }}</li>
+        <li><strong>Users:</strong> {{ num_users }}</li>
+    </div>
+
+    <div class="col-sm-8">
+        {% for post in object_list %}
+        <div class="card">
+        {% if post.image %}
+            <img src="{{ post.image.url }}" style="max-width:20%;" alt="{{ post.title }}">
+        {% endif %}
+        <div class="card-body">
         <a href="{% url 'blog_app:post-detail' post.id %}">
           <h2 class="card-title my-3">{{ post.title }} </h2>
         </a>
@@ -47,9 +51,8 @@
     {% endfor %}
   </div>
 </div>
-
+</ul>
   <hr>
-  </ul>
   <p>You have visited this page {{ num_visits }} time{{ num_visits|pluralize }}.</p>
 
 {% endblock %}

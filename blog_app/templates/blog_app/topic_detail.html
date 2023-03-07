@@ -14,7 +14,7 @@
 <div style="margin-left:20px;margin-top:20px">
 <h4>Posts on this Topic ({{ topic }}):</h4>
 <dl>
-{% for post in topic.post_set.all %}
+{% for post in posts %}
   <li><a href="{% url 'blog_app:post-detail' post.pk %}">{{post}}</a>
   <dd>by Author: <a href="{% url 'blog_users:profile' post.author.username %}">{{ post.author.username }}</a></dd>
   <dd>Created: {{post.created_on}} | Updated: {{post.updated_on}}</dd>

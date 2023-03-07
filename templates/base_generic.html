@@ -25,6 +25,18 @@
 
 <body>
 
+<!-- Messages -->
+{% if messages %}
+<div class="container-fluid p-0">
+    {% for message in messages %}
+        <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %} alert-dismissible fade show">
+          {{ message }}
+        </div>
+    {% endfor %}
+</div>
+{% endif %}
+<!-- /Messages -->
+
 <nav class="navbar navbar-expand-sm navbar bg-dark">
   <div class="container">
     <a href="{% url 'blog_app:index' %}"
@@ -131,18 +143,6 @@
   {% block content %}
   {% endblock %}
 </div>
-
- <!-- Messages -->
-{% if messages %}
-<div class="container-fluid p-0">
-    {% for message in messages %}
-        <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %} alert-dismissible fade show">
-          {{ message }}
-        </div>
-    {% endfor %}
-</div>
-{% endif %}
-<!-- /Messages -->
 
 <!-- Pagination -->
 {% block pagination %}
