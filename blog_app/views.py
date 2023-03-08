@@ -3,6 +3,7 @@ from blog_users.models import BlogUser
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.mail import send_mail
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.http import BadHeaderError, HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, render
 from django.template.loader import render_to_string
@@ -17,7 +18,7 @@ from django.views.generic import (
 )
 
 from .forms import CommentForm, ContactForm
-from .models import Post, Topic
+from .models import Comment, Post, Topic
 
 
 # Create your views here.
@@ -27,7 +28,7 @@ class Index(ListView):
 
     def get_context_data(self, **kwargs):
         context = super(Index, self).get_context_data(**kwargs)
-        context["num_posts"] = Post.objects.count()
+        context["num_posts"] = Post.objects.filter(draft=False).count()
         context["num_topics"] = Topic.objects.count()
         context["num_users"] = BlogUser.objects.count()
 
@@ -39,18 +40,18 @@ class Index(ListView):
     def get_queryset(self):
         if self.request.user.is_superuser:
             return Post.objects.all()
-        return Post.objects.filter(draft=False).filter(active=True)
+        return Post.objects.filter(draft=False)
 
 
 class PostListView(ListView):
     template_name = "blog_app/post_list.html"
     model = Post
-    paginate_by = 10
+    paginate_by = 3
 
     def get_queryset(self):
         if self.request.user.is_superuser:
             return self.model.objects.all()
-        return Post.objects.filter(draft=False).filter(active=True)
+        return Post.objects.filter(draft=False)
 
 
 class TopicListView(ListView):
@@ -62,26 +63,42 @@ class TopicListView(ListView):
 def PostDetailView(request, pk):  # noqa: N802
     template_name = "blog_app/post_detail.html"
     post = get_object_or_404(Post, pk=pk)
-    comments = post.comments.filter(active=True)  # post = models.ForeignKey(... related_name="comments")
+    # comms = post.comments.filter(active=True)  # post = models.ForeignKey(... related_name="comments")
+    comms = Comment.objects.filter(active=True).filter(post__pk=post.pk)
+    comms_num = Comment.objects.filter(active=True).filter(post__pk=post.pk).count()
     new_comment = None
     if request.method == "POST":
         comment_form = CommentForm(data=request.POST)
         if comment_form.is_valid():
             new_comment = comment_form.save(commit=False)
             new_comment.post = post
+            if not new_comment.name:
+                new_comment.name = "anonymous"
+            if not new_comment.email:
+                new_comment.email = "anonymous@anonymous.com"
             new_comment.save()
-            messages.success(request, "Your comment has been sent to Admin for checking!")
-            subject = "New comment saved."
-            message = new_comment
-            user_email = request.user.email
-            send_mail_temp(subject, message, user_email)
     else:
         comment_form = CommentForm()
+
+    page = request.GET.get("page", 1)
+    paginator = Paginator(comms, per_page=1)
+    try:
+        comms = paginator.page(page)
+    except PageNotAnInteger:
+        comms = paginator.page(1)
+    except EmptyPage:
+        comms = paginator.page(paginator.num_pages)
 
     return render(
         request,
         template_name,
-        {"post": post, "comments": comments, "new_comment": new_comment, "comment_form": comment_form},
+        {
+            "post": post,
+            "comms": comms,
+            "new_comment": new_comment,
+            "comment_form": comment_form,
+            "comms_num": comms_num,
+        },
     )
 
 
@@ -91,12 +108,7 @@ class TopicDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(TopicDetailView, self).get_context_data(**kwargs)
-        posts = (
-            Post.objects.prefetch_related("topics")
-            .filter(topics__id=self.object.id)
-            .filter(draft=False)
-            .filter(active=True)
-        )
+        posts = Post.objects.prefetch_related("topics").filter(topics__id=self.object.id).filter(draft=False)
         context["posts"] = posts
         return context
 
@@ -132,13 +144,7 @@ class PostCreateView(LoginRequiredMixin, CreateView):
         obj.author = self.request.user
         obj.slug = slugify(form.cleaned_data["title"])
         obj.draft = form.cleaned_data["draft"]
-        obj.active = False
         obj.save()
-        if not obj.draft:
-            subject = f"New Post '{obj.title}' created."
-            message = obj.content
-            user_email = self.request.user.email
-            send_mail_temp(subject, message, user_email)
         return super().form_valid(form)
 
 
@@ -155,17 +161,6 @@ class PostUpdateView(LoginRequiredMixin, UpdateView):
     def get_success_url(self):
         messages.success(self.request, "Your post has been updated successfully.")
         return reverse_lazy("blog_app:index")
-
-    def form_valid(self, form):
-        obj = form.save(commit=False)
-        obj.active = False
-        obj.save()
-        if not obj.draft:
-            subject = f"Updated Post '{obj.title}'."
-            message = obj.content
-            user_email = self.request.user.email
-            send_mail_temp(subject, message, user_email)
-        return super().form_valid(form)
 
     def get_queryset(self):
         if self.request.user.is_superuser:
@@ -191,7 +186,15 @@ def email_contact_form(request, form, template_name):
     data = dict()
     if request.method == "POST":
         if form.is_valid():
-            form.send_email()
+            subject = "Website Inquiry."
+            body = {
+                "first_name": form.cleaned_data["first_name"],
+                "last_name": form.cleaned_data["last_name"],
+                "email": form.cleaned_data["email_address"],
+                "message": form.cleaned_data["message"],
+            }
+            message = "\n".join(body.values())
+            send_mail_temp(subject, message)
             data["form_is_valid"] = True
         else:
             data["form_is_valid"] = False
@@ -205,11 +208,14 @@ def contact(request):
         form = ContactForm(request.POST)
     else:
         form = ContactForm(initial={"first_name": "User", "last_name": "Userenko", "email_address": "uu@example.com"})
+        # form = ContactForm()
     return email_contact_form(request, form, "blog_app/partial_contact_form_create.html")
 
 
-def send_mail_temp(subject, message, user_email):
+def send_mail_temp(subject, message, user_email=None):
     email_to = ["admin@admin.com", user_email]
+    if user_email is None:
+        email_to = ["admin@admin.com"]
     try:
         send_mail(
             f"{subject}",

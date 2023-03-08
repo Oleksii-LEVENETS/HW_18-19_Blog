@@ -53,7 +53,6 @@ def log_out(request):
 def profile(request, username):
     user = get_object_or_404(BlogUser, username=username)
     profile = get_object_or_404(Profile, user=user)
-    # return render(request, "blog_users/profile.html", {"profile": profile, "user": user})  # ToDo: change back
     return render(request, "blog_users/profile.html", {"profile": profile, "user": user})
 
 
@@ -66,7 +65,6 @@ def edit_profile(request):
             about_me = form.cleaned_data["about_me"]
             username = form.cleaned_data["username"]
             image = form.cleaned_data["image"]
-
             user = BlogUser.objects.get(id=request.user.id)
             profile = Profile.objects.get(user=user)
             user.username = username

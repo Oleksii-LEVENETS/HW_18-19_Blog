@@ -68,6 +68,8 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    # django.contrib.sites
+    "django.contrib.sites",
     #  Django extensions:
     "django_extensions",
     # 'django_celery_results',
@@ -76,6 +78,8 @@ INSTALLED_APPS = [
     "blog_users",
     "widget_tweaks",
 ]
+
+SITE_ID = 1
 
 AUTH_USER_MODEL = "blog_users.BlogUser"
 

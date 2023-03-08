@@ -12,7 +12,6 @@ class CommentInline(admin.StackedInline):
 @admin.register(Post)
 class PostAdmin(admin.ModelAdmin):
     list_display = (
-        "active",
         "draft",
         "id",
         "title",
@@ -26,18 +25,15 @@ class PostAdmin(admin.ModelAdmin):
         "author",
         "created_on",
         "updated_on",
-        "active",
         "draft",
     )
     search_fields = (
         "id",
         "title",
-        "author",
+        "author__username",
         "slug",
-        "display_topic",
         "created_on",
         "updated_on",
-        "active",
         "draft",
     )
     prepopulated_fields = {"slug": ("title",)}  # this create the slug field from the title field
@@ -50,7 +46,6 @@ class PostAdmin(admin.ModelAdmin):
         "display_topic",
         "created_on",
         "updated_on",
-        "active",
         "draft",
     )
     list_per_page = 5
@@ -60,11 +55,6 @@ class PostAdmin(admin.ModelAdmin):
     inlines = [
         CommentInline,
     ]
-
-    actions = ["approve_posts"]
-
-    def approve_posts(self, request, queryset):
-        queryset.update(active=True)
 
 
 @admin.register(Topic)
@@ -110,7 +100,11 @@ class CommentAdmin(admin.ModelAdmin):
     ordering = ["-created_on"]
     save_as = True
     list_per_page = 5
-    actions = ["approve_comments"]
 
-    def approve_comments(self, request, queryset):
-        queryset.update(active=True)
+    def save_model(self, request, obj, form, change):
+        update_fields = []
+        if form.cleaned_data["active"] is True:
+            update_fields.append("active")
+            obj.save(update_fields=update_fields)
+        else:
+            obj.save()
