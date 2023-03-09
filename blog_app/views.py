@@ -57,7 +57,7 @@ class PostListView(ListView):
 class TopicListView(ListView):
     template_name = "blog_app/topic_list.html"
     model = Topic
-    paginate_by = 10
+    paginate_by = 3
 
 
 def PostDetailView(request, pk):  # noqa: N802

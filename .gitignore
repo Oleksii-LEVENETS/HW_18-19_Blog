@@ -141,4 +141,4 @@ __pycache__
 # Database
 *.sqlite3
 .env
-prod.env
+dev.env
