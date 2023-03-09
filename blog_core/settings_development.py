@@ -13,12 +13,8 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 import os
 from pathlib import Path
 
-from blog_core.settings import *  # noqa: F401, F403
-
 # import dj_database_url
-from dotenv import load_dotenv
 
-load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -32,6 +28,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get("SECRET_KEY", "django-insecure-=8^f1+pmts+x(dr6dq^-4+8p!849$t&9gw(a8-p@p=lf492sbi")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+DEBUG_TOOLBAR_ENABLED = True
 # DEBUG = os.environ.get("DEBUG", "") != "False"
 
 ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "").split(",")
@@ -82,9 +79,6 @@ INSTALLED_APPS = [
 ]
 
 
-if DEBUG:
-    INSTALLED_APPS += ["debug_toolbar"]
-
 SITE_ID = 1
 
 AUTH_USER_MODEL = "blog_users.BlogUser"
@@ -100,8 +94,6 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-if DEBUG:
-    MIDDLEWARE += ["debug_toolbar.middleware.DebugToolbarMiddleware"]
 
 ROOT_URLCONF = "blog_core.urls"
 
@@ -247,3 +239,7 @@ EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 # import dj_database_url
 # db_from_env = dj_database_url.config(conn_max_age=500)
 # DATABASES["default"].update(db_from_env)
+
+if DEBUG and DEBUG_TOOLBAR_ENABLED:
+    INSTALLED_APPS.append("debug_toolbar")
+    MIDDLEWARE.insert(0, "debug_toolbar.middleware.DebugToolbarMiddleware")

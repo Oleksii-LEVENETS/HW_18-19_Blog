@@ -68,3 +68,5 @@ traitlets==5.9.0
 virtualenv==20.20.0
 wcwidth==0.2.6
 whitenoise==6.4.0
+
+django-debug-toolbar~=3.8.1

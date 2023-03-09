@@ -11,7 +11,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get("SECRET_KEY")
 
 DEBUG = os.environ.get("DEBUG")
-
+DEBUG_TOOLBAR_ENABLED = os.environ.get("DEBUG_TOOLBAR_ENABLED")
 ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "").split(",")
 
 
@@ -32,9 +32,6 @@ INSTALLED_APPS = [
     "widget_tweaks",
 ]
 
-if DEBUG:
-    INSTALLED_APPS += ["debug_toolbar"]
-
 
 SITE_ID = 1
 
@@ -51,8 +48,6 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-if DEBUG:
-    MIDDLEWARE += ["debug_toolbar.middleware.DebugToolbarMiddleware"]
 
 ROOT_URLCONF = "blog_core.urls"
 
@@ -139,3 +134,8 @@ EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 # Update database configuration from $DATABASE_URL.
 db_from_env = dj_database_url.config(conn_max_age=600, ssl_require=True)
 DATABASES["default"].update(db_from_env)
+
+
+if DEBUG and DEBUG_TOOLBAR_ENABLED:
+    INSTALLED_APPS.append("debug_toolbar")
+    MIDDLEWARE.insert(0, "debug_toolbar.middleware.DebugToolbarMiddleware")
