@@ -47,6 +47,7 @@
         {% endif %}
         <div class="card-text mt-5 p-4">
           {{ post.content }}
+          {% filter capfirst %}{% lorem 10 w random %}{% endfilter %}
         </div>
       </div>
 

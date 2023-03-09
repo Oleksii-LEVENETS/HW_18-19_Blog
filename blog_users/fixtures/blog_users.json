@@ -1,0 +1,164 @@
+[
+{
+  "model": "blog_users.bloguser",
+  "pk": 1,
+  "fields": {
+    "password": "pbkdf2_sha256$390000$pxPa3TmaLI3ObIL8O6NpRo$OxtHRwLWHShF24FdvV2mUB1HuVoRSJAAaojLylzcGkE=",
+    "last_login": "2023-03-09T06:13:09.658Z",
+    "is_superuser": true,
+    "username": "admin",
+    "first_name": "Oleksii",
+    "last_name": "Levenets",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2023-03-09T05:52:02.620Z",
+    "email": "admin@admin.com",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "blog_users.bloguser",
+  "pk": 2,
+  "fields": {
+    "password": "pbkdf2_sha256$390000$LIoAROORi2TY4JyG7Gbzo8$7lkJRSLvxibEq4H9hndMVZt5nTsgHbNxnlztUNLqRE0=",
+    "last_login": "2023-03-09T07:39:17.875Z",
+    "is_superuser": false,
+    "username": "danielmadden",
+    "first_name": "Daniel",
+    "last_name": "Madden",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2023-03-09T05:52:49.204Z",
+    "email": "danielmadden@madden.com",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "blog_users.bloguser",
+  "pk": 3,
+  "fields": {
+    "password": "pbkdf2_sha256$390000$reZy0h8SwwI38mPtnBB5fq$lb2JLesqOC9xYHjw8qLJKBcgTNffTMmPcAzTtxMfewY=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "jacobcortez",
+    "first_name": "Jacob",
+    "last_name": "Cortez",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2023-03-09T05:52:49.445Z",
+    "email": "jacobcortez@cortez.com",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "blog_users.bloguser",
+  "pk": 4,
+  "fields": {
+    "password": "pbkdf2_sha256$390000$7o1aWz3BdzqfsKQ1cs2z5W$Ez4WwN1wT4p/SqzoTuQkyt0j+IA76rCls7VV5FJD7BM=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "feliciamartinez",
+    "first_name": "Felicia",
+    "last_name": "Martinez",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2023-03-09T05:52:49.698Z",
+    "email": "feliciamartinez@martinez.com",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "blog_users.bloguser",
+  "pk": 5,
+  "fields": {
+    "password": "pbkdf2_sha256$390000$yJ2sU8GZ4fqxHAjjeALEMq$m0FFGTiyDOW8O36jc8PsJ1LjritLyPu0GfSQNyY2qMM=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "crystalguerrero",
+    "first_name": "Crystal",
+    "last_name": "Guerrero",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2023-03-09T05:52:49.925Z",
+    "email": "crystalguerrero@guerrero.com",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "blog_users.bloguser",
+  "pk": 6,
+  "fields": {
+    "password": "pbkdf2_sha256$390000$zaNRGxkkUpsIBcsthHsiWW$qon3h4rg69zRPPrcCoJWeHLZ6jvWuxXFwAfPDo8o8uY=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "kathleenvega",
+    "first_name": "Kathleen",
+    "last_name": "Vega",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2023-03-09T05:52:50.169Z",
+    "email": "kathleenvega@vega.com",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "blog_users.profile",
+  "pk": 1,
+  "fields": {
+    "about_me": "The Creator.",
+    "image": "profile_image/IMG_2675_standard.jpg",
+    "user": 1
+  }
+},
+{
+  "model": "blog_users.profile",
+  "pk": 2,
+  "fields": {
+    "about_me": "Two words about me (Daniel Madden). Beautiful again necessary four. Happen alone room remember future head. Technology strong baby including. Per serve travel city project town action.",
+    "image": "",
+    "user": 2
+  }
+},
+{
+  "model": "blog_users.profile",
+  "pk": 3,
+  "fields": {
+    "about_me": "Two words about me (Jacob Cortez). Collection evidence discuss again front practice free. According authority decision reveal general.\r\nLearn around camera vote. Make across short possible.",
+    "image": "profile_image/4.png",
+    "user": 3
+  }
+},
+{
+  "model": "blog_users.profile",
+  "pk": 4,
+  "fields": {
+    "about_me": "Two words about me (Felicia Martinez). Such product build approach tell. Its still great product need investment. What southern base development institution page everything agent.\r\nCentury no enjoy work however.",
+    "image": "profile_image/3.png",
+    "user": 4
+  }
+},
+{
+  "model": "blog_users.profile",
+  "pk": 5,
+  "fields": {
+    "about_me": "Two words about me (Crystal Guerrero). Decision brother because news. Authority career remember than left open. Rate sport view reason task scene.\r\nCommon few threat available.",
+    "image": "profile_image/2.png",
+    "user": 5
+  }
+},
+{
+  "model": "blog_users.profile",
+  "pk": 6,
+  "fields": {
+    "about_me": "Two words about me (Kathleen Vega). In thus fine available force relationship would all. Like same check.\r\nSimple see speech. His than next itself word.\r\nWall field research always three all hotel. Owner reality career know.",
+    "image": "profile_image/1.png",
+    "user": 6
+  }
+}
+]

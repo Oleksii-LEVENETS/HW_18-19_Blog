@@ -4,7 +4,7 @@
   {% load static %}
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{% block title %}Book store{% endblock %}</title>
+  <title>{% block title %}Blog App{% endblock %}</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
         integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
@@ -16,6 +16,8 @@
           crossorigin="anonymous"></script>
 
   <script src="{% static 'js/contact.js' %}"></script>
+  <link rel="stylesheet" href="{% static 'css/base_generic.css' %}">
+
 
   {% block extra_css %}
   {% endblock %}
@@ -101,14 +103,14 @@
   </div>
  </nav>
 
-<div class="container-fluid">
+<div class="container-fluid" style="background-color: whitesmoke">
     <div class="row">
-      <div class="col-sm-2">
+      <div class="col-sm-2" style="background-color: mistyrose">
       {% block sidebar %}
         <ul class="sidebar-nav">
             {% if user.is_authenticated %}
                 <p>User:</p>
-                <p>{{ request.user.username }}</p>
+                <h2 id="us">{{ request.user.username }}</h2>
                 <hr>
                 <p><a href="{% url 'blog_app:my-posts' %}">
                   <button type="button" class="btn btn-outline-primary">

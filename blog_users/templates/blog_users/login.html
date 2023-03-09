@@ -22,7 +22,7 @@
         <div class="form-group">
           {{ form.email.label_tag }}
           <input type="email" class="form-control {% if form.email.errors %}is-invalid{% endif %}" id="id_email"
-            name="email" value='{{ form.email.value|default:"newusertest@newusertest.com" }}'>
+            name="email" value='{{ form.email.value|default:"danielmadden@madden.com" }}'>
           {% if form.email.errors %}
           <div class="invalid-feedback">{{ form.email.errors }}</div>
           {% endif %}

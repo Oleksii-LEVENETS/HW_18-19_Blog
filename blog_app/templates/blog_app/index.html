@@ -9,7 +9,7 @@
 
 <ul class="container-fluid">
   <div class="row">
-    <div class="col-sm-2 m-3 p-3">
+    <div class="col-sm-2 m-4 p-1">
         <h1>Welcome</h1>
         to
         <h1><em>Blog App</em>!</h1>
@@ -19,7 +19,7 @@
         <li><strong>Users:</strong> {{ num_users }}</li>
     </div>
 
-    <div class="col-sm-8">
+    <div class="col-sm-8" style="background-color: lightgray">
         {% for post in object_list %}
         <div class="card">
         {% if post.image %}
@@ -29,7 +29,7 @@
         <a href="{% url 'blog_app:post-detail' post.id %}">
           <h2 class="card-title my-3">{{ post.title }} </h2>
         </a>
-        <div class="text-muted mb-3">
+        <div class="text-muted mb-3" style="background-color: lightgreen">
                 <div>
                   <span>created: {{ post.created_on|date:"j N, Y" }} |</span>
                   <span>updated: {{ post.updated_on|timesince }} ago |</span>
