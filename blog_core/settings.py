@@ -11,7 +11,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get("SECRET_KEY")
 
 DEBUG = os.environ.get("DEBUG")
-DEBUG_TOOLBAR_ENABLED = os.environ.get("DEBUG_TOOLBAR_ENABLED")
+# DEBUG_TOOLBAR_ENABLED = os.environ.get("DEBUG_TOOLBAR_ENABLED")
 ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "").split(",")
 
 
@@ -24,16 +24,16 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     # "django.contrib.staticfiles",
     # django.contrib.sites
-    "django.contrib.sites",
+    # "django.contrib.sites",
     # 'django_celery_results',
     # My apps:
     "blog_app",
     "blog_users",
-    "widget_tweaks",
+    # "widget_tweaks",
 ]
 
 
-SITE_ID = 1
+# SITE_ID = 1
 
 AUTH_USER_MODEL = "blog_users.BlogUser"
 
@@ -136,6 +136,6 @@ db_from_env = dj_database_url.config(conn_max_age=600, ssl_require=True)
 DATABASES["default"].update(db_from_env)
 
 
-if DEBUG and DEBUG_TOOLBAR_ENABLED:
-    INSTALLED_APPS.append("debug_toolbar")
-    MIDDLEWARE.insert(0, "debug_toolbar.middleware.DebugToolbarMiddleware")
+# if DEBUG and DEBUG_TOOLBAR_ENABLED:
+#     INSTALLED_APPS.append("debug_toolbar")
+#     MIDDLEWARE.insert(0, "debug_toolbar.middleware.DebugToolbarMiddleware")

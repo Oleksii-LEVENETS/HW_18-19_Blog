@@ -25,9 +25,10 @@ urlpatterns = [
     path("blog_users/", include(("blog_users.urls", "blog_users"), namespace="blog-users")),
 ]
 
-if settings.DEBUG and settings.DEBUG_TOOLBAR_ENABLED:
-    import debug_toolbar
-    urlpatterns.insert(0, path('__debug__/', include(debug_toolbar.urls)))
+# if settings.DEBUG and settings.DEBUG_TOOLBAR_ENABLED:
+#     import debug_toolbar
+#
+#     urlpatterns.insert(0, path("__debug__/", include(debug_toolbar.urls)))
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

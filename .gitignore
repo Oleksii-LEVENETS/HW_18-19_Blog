@@ -129,8 +129,6 @@ dmypy.json
 .pyre/
 
 
-__HW_13_Levenets/
-__MDN/
 .idea/
 __pycache__
 .DS_Store
@@ -142,3 +140,4 @@ __pycache__
 *.sqlite3
 .env
 dev.env
+.venv
