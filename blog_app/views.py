@@ -39,8 +39,8 @@ class Index(ListView):
 
     def get_queryset(self):
         if self.request.user.is_superuser:
-            return Post.objects.all()
-        return Post.objects.filter(draft=False)
+            return Post.objects.select_related("author").prefetch_related("topics").all()
+        return Post.objects.select_related("author").prefetch_related("topics").filter(draft=False)
 
 
 class PostListView(ListView):
@@ -50,8 +50,8 @@ class PostListView(ListView):
 
     def get_queryset(self):
         if self.request.user.is_superuser:
-            return self.model.objects.all()
-        return Post.objects.filter(draft=False)
+            return Post.objects.select_related("author").prefetch_related("topics").all()
+        return Post.objects.select_related("author").prefetch_related("topics").filter(draft=False)
 
 
 class TopicListView(ListView):
@@ -63,8 +63,8 @@ class TopicListView(ListView):
 def PostDetailView(request, pk):  # noqa: N802
     template_name = "blog_app/post_detail.html"
     post = get_object_or_404(Post, pk=pk)
-    # comms = post.comments.filter(active=True)  # post = models.ForeignKey(... related_name="comments")
-    comms = Comment.objects.filter(active=True).filter(post__pk=post.pk)
+    comms = post.comments.filter(active=True)  # post = models.ForeignKey(... related_name="comments")
+    # comms = Comment.objects.filter(active=True).filter(post__pk=post.pk)
     comms_num = Comment.objects.filter(active=True).filter(post__pk=post.pk).count()
     new_comment = None
     if request.method == "POST":
@@ -77,6 +77,7 @@ def PostDetailView(request, pk):  # noqa: N802
             if not new_comment.email:
                 new_comment.email = "anonymous@anonymous.com"
             new_comment.save()
+            messages.success(request, "Your comment was created successfully!")
     else:
         comment_form = CommentForm()
 
@@ -108,7 +109,7 @@ class TopicDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(TopicDetailView, self).get_context_data(**kwargs)
-        posts = Post.objects.prefetch_related("topics").filter(topics__id=self.object.id).filter(draft=False)
+        posts = Post.objects.filter(topics__id=self.object.id).filter(draft=False)
         context["posts"] = posts
         return context
 
@@ -120,8 +121,8 @@ class MyPostsListView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         if self.request.user.is_superuser:
-            return self.model.objects.all()
-        return Post.objects.filter(author=self.request.user.id)
+            return Post.objects.select_related("author").prefetch_related("topics").all()
+        return Post.objects.select_related("author").prefetch_related("topics").filter(author=self.request.user.id)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -133,6 +134,7 @@ class MyPostsListView(LoginRequiredMixin, ListView):
 # Users' Posts: create, edit, and delete posts.
 class PostCreateView(LoginRequiredMixin, CreateView):
     model = Post
+    template_name = "blog_app/post_form.html"
     fields = ["title", "content", "image", "topics", "draft"]
 
     def get_success_url(self):
@@ -150,6 +152,7 @@ class PostCreateView(LoginRequiredMixin, CreateView):
 
 class PostUpdateView(LoginRequiredMixin, UpdateView):
     model = Post
+    template_name = "blog_app/post_form.html"
     fields = ["title", "content", "image", "topics", "draft"]
 
     def get_context_data(self, **kwargs):
@@ -207,8 +210,8 @@ def contact(request):
     if request.method == "POST":
         form = ContactForm(request.POST)
     else:
-        form = ContactForm(initial={"first_name": "User", "last_name": "Userenko", "email_address": "uu@example.com"})
-        # form = ContactForm()
+        # form = ContactForm(initial={"first_name": "User", "last_name": "Usenko", "email_address": "uu@example.com"})
+        form = ContactForm()
     return email_contact_form(request, form, "blog_app/partial_contact_form_create.html")
 
 

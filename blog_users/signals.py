@@ -19,28 +19,31 @@ def create_profile(sender, instance, created, **kwargs):
 
 
 @receiver(post_save, sender=Post)
-def create_post(sender, instance, created, **kwargs):
-    if created:
-        subject = f"Created Post. '{instance.title}'."
-        message = (
-            f"Status Draft: {instance.draft}.\n"
-            f"Your post '{instance}' is created and published.\n"
-            f"Content: '{instance.content}'."
-        )
-        if instance.draft:
+def create_update_post(sender, instance, created, **kwargs):
+    subject = f"Created/Updated Post. '{instance.title}'."
+    if created:  # noqa: R505
+        return
+    else:
+        if instance.draft:  # is True
             message = (
                 f"Status Draft: {instance.draft}.\n"
-                f"Your post '{instance}' is created, but not published yet.\n"
+                f"Your post '{instance}' is created/updated, but NOT PUBLISHED.\n"
                 f"Content: '{instance.content}'"
             )
-        user_email = instance.author.email
-        send_mail_temp(subject, message, user_email)
+        else:
+            message = (
+                f"Status Draft: {instance.draft}.\n"
+                f"Your post '{instance}' is created/updated and HAS PUBLISHED!\n"
+                f"Content: '{instance.content}'."
+            )
+    user_email = instance.author.email
+    send_mail_temp(subject, message, user_email)
 
 
 @receiver(post_save, sender=Comment)
 def create_comment(sender, instance, created, **kwargs):
     if created:
-        subject = f"New Comment to {instance.post}. Created on {instance.created_on}."
+        subject = f"New Comment to {instance.post} | Created on {instance.created_on}."
         message = f"New Comment is created, but not published yet. Content: '{instance.body}'"
         user_email = instance.post.author.email
         send_mail_temp(subject, message, user_email)

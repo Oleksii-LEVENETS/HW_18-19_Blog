@@ -1,4 +1,6 @@
 from django.contrib import admin
+from django.db.models import Prefetch
+from django.utils.html import format_html
 
 from .models import Comment, Post, Topic
 
@@ -59,10 +61,29 @@ class PostAdmin(admin.ModelAdmin):
 
 @admin.register(Topic)
 class TopicAdmin(admin.ModelAdmin):
-    search_fields = ("name",)
+    list_display = (
+        "name",
+        "written_posts",
+    )
+    search_fields = (
+        "name",
+        "written_posts",
+    )
     ordering = ["name"]
     save_as = True
     list_per_page = 5
+
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+        all_query = Post.objects.all()
+        written = Prefetch("post_set", all_query, to_attr="written")
+        return qs.prefetch_related(written)
+
+    def written_posts(self, obj):
+        result = len(obj.written)
+        return format_html("<b><i>{}</i></b>", result)
+
+    written_posts.short_description = "Written Posts"
 
 
 @admin.register(Comment)

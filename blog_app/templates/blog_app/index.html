@@ -32,7 +32,7 @@
         <div class="text-muted mb-3" style="background-color: lightgreen">
                 <div>
                   <span>created: {{ post.created_on|date:"j N, Y" }} |</span>
-                  <span>updated: {{ post.updated_on|timesince }} ago |</span>
+                  <span>updated: {{ post.updated_on|timesince }} ago |</span><br/>
                   by author: <a href="{% url 'blog_users:profile' post.author.username %}">
                   <span>{{ post.author.username }}</span>
                 </div>

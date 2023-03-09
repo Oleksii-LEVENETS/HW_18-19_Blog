@@ -27,8 +27,7 @@
 
       {% if mypost %}
       Is Draft:        {% if post.draft %} Yes, is Draft. {% else %} No. {% endif %}<br/>
-      Is Posted:       {% if post.active and not post.draft %} Yes, is Posted.
-                       {% else %} No, is not Posted.{% endif %}
+      Is Posted:       {% if not post.draft %} Yes, is Posted. {% else %} No, is not Posted.{% endif %}
       {% endif %}
     {% endfor %}
   </ul>

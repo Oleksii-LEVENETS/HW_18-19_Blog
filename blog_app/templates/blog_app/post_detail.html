@@ -128,7 +128,7 @@
           <span class="ml-2"></span>{{ comment_form.body.label_tag }}
           <span class="text-muted"><small>(Write down your Comment here)</small></span>
           <textarea class="form-control {% if comment_form.body.errors %}is-invalid{% endif %}" id="id_body"
-            name="body" rows="4">{{ comment_form.body.value|default:'' }}</textarea>
+            name="body" rows="4"></textarea>
         </div>
         <button class="btn btn-primary ml-2" type="submit">Reply</button>
       </form>
