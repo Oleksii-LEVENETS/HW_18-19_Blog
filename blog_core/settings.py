@@ -32,6 +32,10 @@ INSTALLED_APPS = [
     "widget_tweaks",
 ]
 
+if DEBUG:
+    INSTALLED_APPS += ["debug_toolbar"]
+
+
 SITE_ID = 1
 
 AUTH_USER_MODEL = "blog_users.BlogUser"
@@ -47,6 +51,8 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
+if DEBUG:
+    MIDDLEWARE += ["debug_toolbar.middleware.DebugToolbarMiddleware"]
 
 ROOT_URLCONF = "blog_core.urls"
 

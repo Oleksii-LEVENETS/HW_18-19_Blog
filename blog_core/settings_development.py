@@ -81,14 +81,13 @@ INSTALLED_APPS = [
     "widget_tweaks",
 ]
 
-SITE_ID = 1
-
-AUTH_USER_MODEL = "blog_users.BlogUser"
-
 
 if DEBUG:
     INSTALLED_APPS += ["debug_toolbar"]
 
+SITE_ID = 1
+
+AUTH_USER_MODEL = "blog_users.BlogUser"
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
