@@ -15,8 +15,6 @@ exclude =
     tests,
     # No need to traverse sandbox.py
     sandbox.py,
-    __HW_13_Levenets,
-    __MDN,
-    .tox,
+    .tox
 
 max-complexity = 10

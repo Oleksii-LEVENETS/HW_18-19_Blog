@@ -7,7 +7,10 @@ from .models import BlogUser
 class SignUpForm(UserCreationForm):
     class Meta:
         model = BlogUser
-        fields = ("username", "email",)
+        fields = (
+            "username",
+            "email",
+        )
 
 
 class LoginForm(forms.Form):
@@ -17,7 +20,7 @@ class LoginForm(forms.Form):
 
 class EditProfileForm(forms.Form):
     username = forms.CharField()
-    about_me = forms.CharField(widget=forms.Textarea())
+    about_me = forms.CharField(widget=forms.Textarea)
     image = forms.ImageField(required=False)
 
     def __init__(self, original_username, *args, **kwargs):
@@ -25,9 +28,8 @@ class EditProfileForm(forms.Form):
         self.original_username = original_username
 
     def clean_username(self):
-        username = self.cleaned_data['username']
+        username = self.cleaned_data["username"]
         if username != self.original_username:
             if BlogUser.objects.filter(username=username).exists():
-                raise forms.ValidationError(
-                    'A user with that username already exists.')
+                raise forms.ValidationError("A user with that username already exists.")
         return username

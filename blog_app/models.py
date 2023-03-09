@@ -8,11 +8,11 @@ class Topic(models.Model):
     name = models.CharField("Topic", max_length=20)
 
     class Meta:
-        ordering = ['name']
+        ordering = ["name"]
 
     def get_absolute_url(self):
         """Returns the url to access a particular topic."""
-        return reverse('blog_app:topic-detail', args=[str(self.id)])
+        return reverse("blog_app:topic-detail", args=[str(self.id)])
 
     def __str__(self):
         return self.name
@@ -24,23 +24,24 @@ class Post(models.Model):
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True)
     slug = models.SlugField(max_length=254, db_index=True)  # db_index=True to speed up searches
     content = models.TextField(max_length=10_000, help_text="Enter the content of your Post here")
-    image = models.ImageField(upload_to='', blank=True, null=True)
+    image = models.ImageField(upload_to="", blank=True, null=True)
     # M2M: Many Topics, Many Posts:
     topics = models.ManyToManyField(Topic, help_text="Select a Topic for this Post", blank=True)
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
+    draft = models.BooleanField(default=False)
 
     class Meta:
-        ordering = ['-created_on']
+        ordering = ["-created_on"]
 
     def display_topic(self):
         """Creates a string for the Topics. This is required to display Topics in Admin."""
-        return ', '.join([topic.name for topic in self.topics.all()[:2]])
+        return ", ".join([topic.name for topic in self.topics.all()[:2]])
 
-    display_topic.short_description = 'Topic'
+    display_topic.short_description = "Topic"
 
     def get_absolute_url(self):
-        return reverse('blog_app:post-detail', args=[str(self.id)])
+        return reverse("blog_app:post-detail", args=[str(self.pk)])
 
     def __str__(self):
         return self.title
@@ -48,14 +49,18 @@ class Post(models.Model):
 
 # Comments
 class Comment(models.Model):
-    name = models.CharField(max_length=50)
-    email = models.EmailField(max_length=100)
-    content = models.TextField()
-    post = models.ForeignKey(Post, on_delete=models.CASCADE)
-    created = models.DateTimeField(auto_now_add=True)
+    name = models.CharField(max_length=50, default="anonymous")
+    email = models.EmailField(max_length=100, default="anonymous@anonymous.com")
+    body = models.TextField()
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="comments")  # related_name vs "comment_set"
+    created_on = models.DateTimeField(auto_now_add=True)
+    active = models.BooleanField("is published", default=False)
 
     class Meta:
-        ordering = ('-created',)
+        ordering = ["-created_on"]
+
+    def get_absolute_url(self):
+        return reverse("blog_app:post-detail", args=[str(self.post.pk)])
 
     def __str__(self):
-        return f'Comment by {self.name}'
+        return f"Comment {self.body} by {self.name}"

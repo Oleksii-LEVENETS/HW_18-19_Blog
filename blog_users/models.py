@@ -4,8 +4,8 @@ from django.db import models
 
 # Create your models here.
 class BlogUser(AbstractUser):
-    email = models.EmailField('email address', unique=True)
-    USERNAME_FIELD = 'email'
+    email = models.EmailField("email address", unique=True)
+    USERNAME_FIELD = "email"
     REQUIRED_FIELDS = ["username"]
 
 
@@ -15,7 +15,7 @@ class Profile(models.Model):
     """
 
     about_me = models.TextField()
-    image = models.ImageField(upload_to='profile_image', null=True, blank=True)
+    image = models.ImageField(upload_to="profile_image", null=True, blank=True)
     user = models.OneToOneField(BlogUser, on_delete=models.CASCADE)
 
     def __str__(self):

@@ -1,36 +1,38 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Blog App Index Page</title>
-</head>
-<body>
-
 {% extends "base_generic.html" %}
 
-{% block content %}
-<h1>Welcome to <em>Blog App</em>!</h1>
-  <p>The Blog App has the following record counts:</p>
-  <ul>
-    <li><strong>Posts:</strong> {{ num_posts }}</li>
-    <li><strong>Topics:</strong> {{ num_topics }}</li>
-    <li><strong>Users:</strong> {{ num_users }}</li>
+{% load static %}
 
-<div class="container mt-1">
+{% block extra_js %}
+{% endblock %}
+
+{% block content %}
+
+<ul class="container-fluid">
   <div class="row">
-    {% for post in object_list %}
-    <div class="card col-lg-6 offset-lg-3 mb-3">
-      {% if post.image %}
-      <img class="card-img-top mt-3" src="{{ post.image.url }}" alt="{{ post.title }}">
-      {% endif %}
-      <div class="card-body">
+    <div class="col-sm-2 m-4 p-1">
+        <h1>Welcome</h1>
+        to
+        <h1><em>Blog App</em>!</h1>
+        <p>The Blog App has the following record counts:</p>
+        <li><strong>Posts:</strong> {{ num_posts }}</li>
+        <li><strong>Topics:</strong> {{ num_topics }}</li>
+        <li><strong>Users:</strong> {{ num_users }}</li>
+    </div>
+
+    <div class="col-sm-8" style="background-color: lightgray">
+        {% for post in object_list %}
+        <div class="card">
+        {% if post.image %}
+            <img src="{{ post.image.url }}" style="max-width:20%;" alt="{{ post.title }}">
+        {% endif %}
+        <div class="card-body">
         <a href="{% url 'blog_app:post-detail' post.id %}">
           <h2 class="card-title my-3">{{ post.title }} </h2>
         </a>
-        <div class="text-muted mb-3">
+        <div class="text-muted mb-3" style="background-color: lightgreen">
                 <div>
                   <span>created: {{ post.created_on|date:"j N, Y" }} |</span>
-                  <span>updated: {{ post.updated_on|timesince }} ago |</span>
+                  <span>updated: {{ post.updated_on|timesince }} ago |</span><br/>
                   by author: <a href="{% url 'blog_users:profile' post.author.username %}">
                   <span>{{ post.author.username }}</span>
                 </div>
@@ -49,12 +51,8 @@
     {% endfor %}
   </div>
 </div>
-
+</ul>
   <hr>
-  </ul>
   <p>You have visited this page {{ num_visits }} time{{ num_visits|pluralize }}.</p>
 
 {% endblock %}
-
-</body>
-</html>

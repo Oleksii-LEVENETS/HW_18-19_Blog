@@ -22,7 +22,7 @@
         <div class="form-group">
           {{ form.email.label_tag }}
           <input type="email" class="form-control {% if form.email.errors %}is-invalid{% endif %}" id="id_email"
-            name="email" value='{{ form.email.value|default:"admin@admin.com" }}'>
+            name="email" value='{{ form.email.value|default:"" }}'>
           {% if form.email.errors %}
           <div class="invalid-feedback">{{ form.email.errors }}</div>
           {% endif %}
@@ -31,7 +31,7 @@
         <div class="form-group">
           {{ form.password.label_tag }}
           <input type="password" class="form-control {% if form.password.errors %}is-invalid{% endif %}"
-            id="id_password" name="password" value='{{ form.password.value|default:"admin" }}'>
+            id="id_password" name="password" value='{{ form.password.value|default:"" }}'>
           {% if form.password.errors %}
           <div class="invalid-feedback">{{ form.password.errors }}</div>
           {% endif %}

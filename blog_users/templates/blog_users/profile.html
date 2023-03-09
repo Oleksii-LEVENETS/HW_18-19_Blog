@@ -1,31 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>User Profile</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Blog App</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 </head>
-<body>
 
+<body>
 {% extends 'base_generic.html' %}
-{% load static %}
-{% block head_title %}{{ user.username }} | Blog App{% endblock head_title %}
+    {% load static %}
 
 {% block content %}
-<div class="container-fluid mt-5">
+<h2> {{ user.username }} | Blog App</h2>
+    <p class="us" id="us" style="background-color: greenyellow">Hello!</p>
+<div class="container-fluid mt-5" style="background-color: beige">
   <div class="row">
-    <div class="card col-lg-6 offset-lg-3 mb-3">
+    <div class="card col-lg-6 offset-lg-3 mb-3" style="background-color: aquamarine">
       <div class="row">
         {% if user.profile.image %}
-        <img class="card-img-top col-sm-3 col-4 my-3" src="{{ profile.image.url }}" alt="{{ user.username }}">
+        <img class="card-img-top col-sm-4 col-4 my-3" src="{{ profile.image.url }}" alt="{{ user.username }}">
         {% else %}
         <img class="card-img-top col-sm-3 col-4 my-3" src="{% static 'img/avatar.png' %}" alt="{{ user.username }}">
         {% endif %}
         <div class="card-body col-9">
-          <h2 class="card-title my-3">{{ user.username }}</h2>
+          <p>username:  <h2>{{ user.username }}</h2></p>
           <p>Last login on: {{ user.last_login }}</p>
-          <p class="card-text">{{ user.profile.about_me }}</p>
-          <p><a href="{% url 'blog_users:edit_profile' %}">Edit your profile</a></p>
-          <p><a href="{% url 'blog_users:password_change' %}">Change password</a></p>
+          <p class="card-text">
+              {{ user.profile.about_me }}
+              {% filter capfirst %}{% lorem 10 w random %}{% endfilter %}
+          </p>
+
+          {% if user == request.user or request.user.is_superuser %}
+
+          <button type="button" class="btn btn-outline-warning">
+          <p><a href="{% url 'blog_users:edit_profile' %}">Edit your profile</a></p></button>
+
+          <button type="button" class="btn btn-outline-danger">
+          <p><a href="{% url 'blog_users:password_change' %}">Change password</a></p></button>
+
+          {% endif %}
+
         </div>
       </div>
     </div>

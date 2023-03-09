@@ -19,6 +19,15 @@
         {% csrf_token %}
 
         <div class="form-group">
+          The Post is ready to post. For changing status to "Draft" -- push "Stay Draft!"<br/>
+          {{ form.draft.label_tag }}
+          <label class="btn btn-outline-danger" for="btn-check-outlined">Stay Draft!</label>
+          <input type='checkbox' name='draft' class="btn-check" id="btn-check-outlined" autocomplete="off"
+               value= '{{ True }}'>
+        </div>
+
+
+        <div class="form-group">
           {{ form.title.label_tag }}
           <input type="text" class="form-control {% if form.title.errors %}is-invalid{% endif %}" id="id_title"
             name="title" value='{{ form.title.value|default:"" }}'>
@@ -39,7 +48,7 @@
         <div class="form-group">
           {{ form.image.label_tag }}<br>
           <input type="file" class="{% if form.image.errors %}is-invalid{% endif %}" id="id_image" name="image"
-            accept="image/*">
+            accept="image/*">  {{ form.image.value|default:"" }}
           {% if form.image.errors %}
           <div class="invalid-feedback">{{ form.image.errors }}</div>
           {% endif %}
