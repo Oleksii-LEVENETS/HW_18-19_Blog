@@ -18,13 +18,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 # SECURITY WARNING: keep the secret key used in production secret!
-# SECRET_KEY=os.environ.get("DJANGO_SECRET_KEY", "django-insecure-=8^f1+pmts+x(dr6dq^-4+8p!849$t&9gw(a8-p@p=lf492sbi")
-SECRET_KEY = os.environ.get("SECRET_KEY", "django-insecure-=8^f1+pmts+x(dr6dq^-4+8p!849$t&9gw(a8-p@p=lf492sbi")
+# SECRET_KEY = os.environ.get("SECRET_KEY", "django-insecure-=8^f1+pmts+x(dr6dq^-4+8p!849$t&9gw(a8-p@p=lf492sbi")
+SECRET_KEY = os.environ.get("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG = True
-DEBUG = os.environ.get("DEBUG")
-
+DEBUG = os.environ['DEBUG_VALUE'] == "TRUE"
 
 # For example, for a site URL at 'web-production-3640.up.railway.app'
 # (replace the string below with your own site URL):
@@ -45,15 +44,12 @@ DEBUG = os.environ.get("DEBUG")
 # Set CSRF trusted origins to allow any app on Railway and the local testing URL
 # CSRF_TRUSTED_ORIGINS = ['https://*.railway.app', 'https://*.127.0.0.1']
 ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "").split(",")
+
 if DEBUG:
     ALLOWED_HOSTS = ["*"]
 
-    INTERNAL_IPS = [  # Django-debug-toolbar
-        "127.0.0.1",
-    ]
-    DEBUG_TOOLBAR_CONFIG = {
-        "INTERCEPT_REDIRECTS": False,
-    }
+    INTERNAL_IPS = ["127.0.0.1"]
+    DEBUG_TOOLBAR_CONFIG = {"INTERCEPT_REDIRECTS": False}
 
 # Application definition
 INSTALLED_APPS = [
@@ -236,5 +232,5 @@ EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 # SESSION_SAVE_EVERY_REQUEST = True
 
 # Update database configuration from $DATABASE_URL.
-db_from_env = dj_database_url.config(conn_max_age=600, ssl_require=True)
+db_from_env = dj_database_url.config(conn_max_age=600)
 DATABASES["default"].update(db_from_env)
