@@ -24,6 +24,7 @@ urlpatterns = [
             email_template_name="blog_users/password_reset_email.html",
             subject_template_name="blog_users/password_reset_subject.txt",
             success_url="/blog_users/password_reset/done/",
+            from_email="oleksii.levenets@icloud.com",
         ),
         name="password_reset",
     ),

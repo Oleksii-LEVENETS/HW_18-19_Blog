@@ -23,7 +23,7 @@ SECRET_KEY = os.environ.get("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG = True
-DEBUG = os.environ['DEBUG_VALUE'] == "TRUE"
+DEBUG = os.environ["DEBUG_VALUE"] == "TRUE"
 
 # For example, for a site URL at 'web-production-3640.up.railway.app'
 # (replace the string below with your own site URL):
@@ -227,7 +227,16 @@ MEDIA_URL = "/media/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # Add to test email:
-EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+if not DEBUG:
+    EMAIL_HOST = os.environ.get("EMAIL_HOST")
+    EMAIL_PORT = os.environ.get("EMAIL_HOST")
+    EMAIL_HOST_USER = os.environ.get("EMAIL_HOST")
+    EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST")
+    EMAIL_USE_TLS = True
+    DEFAULT_FROM_EMAIL = "Blog Application <noreply@blogapplication.com>"
+else:
+    EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+
 
 # SESSION_SAVE_EVERY_REQUEST = True
 
