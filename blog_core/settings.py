@@ -123,29 +123,29 @@ WSGI_APPLICATION = "blog_core.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-# DATABASES = {
-#     "default": {
-#         "ENGINE": "django.db.backends.sqlite3",
-#         "NAME": BASE_DIR / "db.sqlite3_old",
-#     }
-# }
-
-
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": os.environ.get("NAME_DB"),
-        "USER": os.environ.get("USER_DB"),
-        "PASSWORD": os.environ.get("PASSWORD_DB"),
-        "HOST": os.environ.get("HOST_DB"),
-        "PORT": os.environ.get("PORT_DB"),
-        "TEST": {
-            "NAME": "test_blog_app_db",
-            "USER": "postgres",
-            "PASSWORD": "",
-        },
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3_old",
     }
 }
+
+
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.postgresql",
+#         "NAME": os.environ.get("NAME_DB"),
+#         "USER": os.environ.get("USER_DB"),
+#         "PASSWORD": os.environ.get("PASSWORD_DB"),
+#         "HOST": os.environ.get("HOST_DB"),
+#         "PORT": os.environ.get("PORT_DB"),
+#         "TEST": {
+#             "NAME": "test_blog_app_db",
+#             "USER": "postgres",
+#             "PASSWORD": "",
+#         },
+#     }
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
