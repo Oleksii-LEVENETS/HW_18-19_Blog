@@ -1,3 +1,5 @@
+from blog_core import settings
+
 from django.contrib.auth.views import (
     PasswordChangeDoneView,
     PasswordChangeView,
@@ -24,6 +26,7 @@ urlpatterns = [
             email_template_name="blog_users/password_reset_email.html",
             subject_template_name="blog_users/password_reset_subject.txt",
             success_url="/blog_users/password_reset/done/",
+            from_email=settings.EMAIL_HOST_USER,
         ),
         name="password_reset",
     ),
