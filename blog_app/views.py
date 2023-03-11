@@ -1,3 +1,5 @@
+from blog_core import settings
+
 from blog_users.models import BlogUser
 
 from django.contrib import messages
@@ -216,15 +218,15 @@ def contact(request):
 
 
 def send_mail_temp(subject, message, user_email=None):
-    email_to = ["admin@admin.com", user_email]
+    email_to = [settings.EMAIL_HOST_USER, user_email]
     if user_email is None:
-        email_to = ["admin@admin.com"]
+        email_to = [settings.EMAIL_HOST_USER]
     try:
         send_mail(
-            f"{subject}",
-            f"{message}",
-            "admin@admin.com",
-            email_to,
+            subject=f"{subject}",
+            message=f"{message}",
+            from_email=settings.EMAIL_HOST_USER,
+            recipient_list=email_to,
             fail_silently=False,
         )
     except BadHeaderError:

@@ -21,6 +21,7 @@ dj-database-url==1.2.0
 Django==4.1.7
 django-celery-results==2.4.0
 django-extensions==3.2.1
+django-heroku==0.3.1
 django-widget-tweaks==1.4.12
 django_debug_toolbar==3.8.1
 executing==1.2.0
@@ -56,6 +57,7 @@ Pillow==9.4.0
 platformdirs==3.0.0
 pluggy==1.0.0
 prompt-toolkit==3.0.38
+psycopg2==2.9.5
 psycopg2-binary==2.9.5
 ptyprocess==0.7.0
 pure-eval==0.2.2
@@ -67,11 +69,15 @@ Pygments==2.14.0
 pyproject_api==1.5.0
 python-dateutil==2.8.2
 python-dotenv==1.0.0
+python-http-client==3.3.7
 pytz==2022.7.1
+sendgrid==6.9.7
 six==1.16.0
 snowballstemmer==2.2.0
 sqlparse==0.4.3
 stack-data==0.6.2
+starkbank-ecdsa==2.2.0
+tblib==1.7.0
 tomli==2.0.1
 tox==4.4.6
 traitlets==5.9.0
