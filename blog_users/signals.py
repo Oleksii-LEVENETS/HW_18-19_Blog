@@ -1,5 +1,6 @@
+from blog_app import tasks
 from blog_app.models import Comment, Post
-from blog_app.views import send_mail_temp
+
 
 from django.contrib.sites.shortcuts import get_current_site
 from django.db.models.signals import post_save, pre_delete
@@ -15,7 +16,7 @@ def create_profile(sender, instance, created, **kwargs):
         subject = f"User '{instance}' is created."
         message = f"User '{instance}' is created. Is Admin: {instance.is_superuser}. Is Staff: {instance.is_staff}."
         user_email = instance.email
-        send_mail_temp(subject, message, user_email)
+        tasks.send_mail_temp.delay(subject, message, user_email)
 
 
 @receiver(post_save, sender=Post)
@@ -37,7 +38,7 @@ def create_update_post(sender, instance, created, **kwargs):
                 f"Content: '{instance.content}'."
             )
     user_email = instance.author.email
-    send_mail_temp(subject, message, user_email)
+    tasks.send_mail_temp.delay(subject, message, user_email)
 
 
 @receiver(post_save, sender=Comment)
@@ -46,7 +47,7 @@ def create_comment(sender, instance, created, **kwargs):
         subject = f"New Comment to {instance.post} | Created on {instance.created_on}."
         message = f"New Comment is created, but not published yet. Content: '{instance.body}'"
         user_email = instance.post.author.email
-        send_mail_temp(subject, message, user_email)
+        tasks.send_mail_temp.delay(subject, message, user_email)
 
 
 @receiver(post_save, sender=Comment)
@@ -58,7 +59,7 @@ def change_comment_to_active(sender, instance, update_fields, **kwargs):
         url = instance.get_absolute_url()
         message = site_name + url
         user_email = instance.post.author.email
-        send_mail_temp(subject, message, user_email)
+        tasks.send_mail_temp.delay(subject, message, user_email)
 
 
 # This code for S3 file deletion

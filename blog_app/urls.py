@@ -1,11 +1,13 @@
 from blog_app import views
 
 from django.urls import path
+from django.views.decorators.cache import cache_page  # noqa: F401
 
 
 app_name = "blog_app"
 
 urlpatterns = [
+    # path("", cache_page(10)(views.Index.as_view()), name="index"),  # ToDo: cached!
     path("", views.Index.as_view(), name="index"),
     path("posts/", views.PostListView.as_view(), name="posts"),
     path("myposts/", views.MyPostsListView.as_view(), name="my-posts"),

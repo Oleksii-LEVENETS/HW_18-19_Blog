@@ -21,10 +21,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 # SECRET_KEY = os.environ.get("SECRET_KEY", "django-insecure-=8^f1+pmts+x(dr6dq^-4+8p!849$t&9gw(a8-p@p=lf492sbi")
 SECRET_KEY = os.environ.get("SECRET_KEY")
-
 # SECURITY WARNING: don't run with debug turned on in production!
-# DEBUG = True
-DEBUG = os.environ["DEBUG_VALUE"] == "TRUE"
+DEBUG = True
+# DEBUG = os.getenv('DEBUG_VALUE') == "True"
 
 # For example, for a site URL at 'web-production-3640.up.railway.app'
 # (replace the string below with your own site URL):
@@ -181,9 +180,12 @@ LOGIN_URL = "/blog_users/login/"
 
 
 # # Celery Configuration Options
+CELERY_BROKER_URL = "amqp://localhost:5672"
+CELERY_RESULT_BACKEND = "django-db"
+
 # CELERY_TASK_TRACK_STARTED = True
 # CELERY_TASK_TIME_LIMIT = 30 * 60
-# # CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
+# CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
 # # CELERY_RESULT_BACKEND = os.environ.get("CELERY_RESULT_BACKEND")  # ToDo: Provide Security in real Project!
 # # CELERY_RESULT_BACKEND = 'amqp://localhost:5672'
 # CELERY_RESULT_BACKEND = 'django-db'
@@ -195,7 +197,6 @@ LOGIN_URL = "/blog_users/login/"
 # CELERY_TASK_SERIALIZER = "json"
 # CELERY_RESULT_SERIALIZER = "json"
 # CELERY_TIMEZONE = 'Europe/Kiev'
-
 
 # Cache time to live is 15 seconds:
 # CACHE_TTL = 15

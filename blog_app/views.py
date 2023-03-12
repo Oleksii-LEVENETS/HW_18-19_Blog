@@ -1,12 +1,9 @@
-from blog_core import settings
-
 from blog_users.models import BlogUser
 
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.core.mail import send_mail
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
-from django.http import BadHeaderError, HttpResponse, JsonResponse
+from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, render
 from django.template.loader import render_to_string
 from django.urls import reverse_lazy
@@ -19,6 +16,7 @@ from django.views.generic import (
     UpdateView,
 )
 
+from . import tasks
 from .forms import CommentForm, ContactForm
 from .models import Comment, Post, Topic
 
@@ -199,7 +197,7 @@ def email_contact_form(request, form, template_name):
                 "message": form.cleaned_data["message"],
             }
             message = "\n".join(body.values())
-            send_mail_temp(subject, message)
+            tasks.send_mail_temp.delay(subject, message)
             data["form_is_valid"] = True
         else:
             data["form_is_valid"] = False
@@ -217,17 +215,17 @@ def contact(request):
     return email_contact_form(request, form, "blog_app/partial_contact_form_create.html")
 
 
-def send_mail_temp(subject, message, user_email=None):
-    email_to = [settings.EMAIL_HOST_USER, user_email]
-    if user_email is None:
-        email_to = [settings.EMAIL_HOST_USER]
-    try:
-        send_mail(
-            subject=f"{subject}",
-            message=f"{message}",
-            from_email=settings.EMAIL_HOST_USER,
-            recipient_list=email_to,
-            fail_silently=False,
-        )
-    except BadHeaderError:
-        return HttpResponse("Invalid header found.")
+# def send_mail_temp(subject, message, user_email=None):
+#     email_to = [settings.EMAIL_HOST_USER, user_email]
+#     if user_email is None:
+#         email_to = [settings.EMAIL_HOST_USER]
+#     try:
+#         send_mail(
+#             subject=f"{subject}",
+#             message=f"{message}",
+#             from_email=settings.EMAIL_HOST_USER,
+#             recipient_list=email_to,
+#             fail_silently=False,
+#         )
+#     except BadHeaderError:
+#         return HttpResponse("Invalid header found.")
