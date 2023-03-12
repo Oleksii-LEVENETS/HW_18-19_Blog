@@ -221,14 +221,18 @@ if not DEBUG:
     AWS_S3_CUSTOM_DOMAIN = "%s.s3.amazonaws.com" % AWS_STORAGE_BUCKET_NAME
 
     AWS_S3_OBJECT_PARAMETERS = {
-        "CacheControl": "max-age=86400",
+        "CacheControl": "max-age=1",
     }
-    AWS_LOCATION = "static"
+    AWS_LOCATION_STATIC = "static"
+    AWS_LOCATION_MEDIA = "media"
+
     STATICFILES_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
-    STATIC_URL = "https://%s/%s/" % (AWS_S3_CUSTOM_DOMAIN, AWS_LOCATION)
-
-    DEFAULT_FILE_STORAGE = "blog_core.storage_backends.MediaStorage"
-
+    STATIC_URL = "https://%s/%s/" % (AWS_S3_CUSTOM_DOMAIN, AWS_LOCATION_STATIC)
+    MEDIA_URL = "https://%s/%s/" % (AWS_S3_CUSTOM_DOMAIN, AWS_LOCATION_MEDIA)
+    # DEFAULT_FILE_STORAGE = "blog_core.storage_backends.MediaStorage"
+    AWS_DEFAULT_ACL = None
+    DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+    
 else:
     # Static files (CSS, JavaScript, Images)
     # https://docs.djangoproject.com/en/4.1/howto/static-files/
@@ -266,3 +270,7 @@ else:
 # Update database configuration from $DATABASE_URL.
 db_from_env = dj_database_url.config(conn_max_age=600)
 DATABASES["default"].update(db_from_env)
+
+
+import django_heroku
+django_heroku.settings(locals(), staticfiles=False)
