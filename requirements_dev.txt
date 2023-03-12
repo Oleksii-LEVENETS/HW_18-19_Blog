@@ -6,6 +6,8 @@ attrs==22.2.0
 backcall==0.2.0
 billiard==3.6.4.0
 black==23.1.0
+boto3==1.26.89
+botocore==1.29.89
 cachetools==5.3.0
 celery==5.2.7
 chardet==5.1.0
@@ -22,6 +24,7 @@ Django==4.1.7
 django-celery-results==2.4.0
 django-extensions==3.2.1
 django-heroku==0.3.1
+django-storages==1.13.2
 django-widget-tweaks==1.4.12
 django_debug_toolbar==3.8.1
 executing==1.2.0
@@ -43,6 +46,7 @@ graphviz==0.20.1
 gunicorn==20.1.0
 ipython==8.11.0
 jedi==0.18.2
+jmespath==1.0.1
 kombu==5.2.4
 matplotlib-inline==0.1.6
 mccabe==0.7.0
@@ -71,6 +75,7 @@ python-dateutil==2.8.2
 python-dotenv==1.0.0
 python-http-client==3.3.7
 pytz==2022.7.1
+s3transfer==0.6.0
 sendgrid==6.9.7
 six==1.16.0
 snowballstemmer==2.2.0
@@ -81,6 +86,7 @@ tblib==1.7.0
 tomli==2.0.1
 tox==4.4.6
 traitlets==5.9.0
+urllib3==1.26.15
 vine==5.0.0
 virtualenv==20.20.0
 wcwidth==0.2.6

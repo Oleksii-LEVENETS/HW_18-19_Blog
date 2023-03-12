@@ -2,7 +2,7 @@ from blog_app.models import Comment, Post
 from blog_app.views import send_mail_temp
 
 from django.contrib.sites.shortcuts import get_current_site
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, pre_delete
 from django.dispatch import receiver
 
 from .models import BlogUser, Profile
@@ -59,3 +59,9 @@ def change_comment_to_active(sender, instance, update_fields, **kwargs):
         message = site_name + url
         user_email = instance.post.author.email
         send_mail_temp(subject, message, user_email)
+
+
+# This code for S3 file deletion
+@receiver(pre_delete, sender=Post)
+def remove_file_from_s3(sender, instance, using, **kwargs):
+    instance.image.delete(save=False)
