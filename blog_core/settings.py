@@ -24,7 +24,8 @@ SECRET_KEY = os.environ.get("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG = True
-DEBUG = os.environ["DEBUG_VALUE"] == "TRUE"
+# DEBUG = os.environ["DEBUG_VALUE"] == "TRUE"
+DEBUG = os.environ.get("DEBUG_VALUE", "") != "False"
 
 # For example, for a site URL at 'web-production-3640.up.railway.app'
 # (replace the string below with your own site URL):
